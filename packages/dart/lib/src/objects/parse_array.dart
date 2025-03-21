@@ -68,9 +68,12 @@ class _ParseArray implements _Valuable<List>, _ParseSaveStateAwareChild {
   @mustCallSuper
   void onSaved() {
     setMode = false;
-    _savedArray.clear();
-    _savedArray.addAll(_estimatedArrayBeforeSaving ?? []);
-    _estimatedArrayBeforeSaving = null;
+    if (_estimatedArrayBeforeSaving != null &&
+        _estimatedArrayBeforeSaving!.isNotEmpty) {
+      _savedArray.clear();
+      _savedArray.addAll(_estimatedArrayBeforeSaving!);
+      _estimatedArrayBeforeSaving = null;
+    }
 
     if (_lastPreformedOperationBeforeSaving == lastPreformedOperation) {
       // No operations were performed during the save process
